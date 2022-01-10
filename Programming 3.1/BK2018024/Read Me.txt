@@ -1,0 +1,23 @@
+Author: Praise Mlambo BK2018024, Time: 2021/04/25
+
+Basic Intro to the program
+-------------------------------------
+The web browser is needed to run these html files.
+
+
+How to run the program
+-------------------------------------
+1. Click on the .html file. Thats all, and enjoy.
+
+
+
+
+Environmental requirement
+-------------------------------------
+macOS or Linux or Windows
+Browser should support Javascript ES6
+
+-------------------------------------
+Other things need to know
+-------------------------------------
+Just make sure the other all the files are in the same directory as the .html file.

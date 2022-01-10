@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Histogram 1</title>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src = "https://d3js.org/d3-axis.v1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <!-- <script type="text/javascript" src="papaparse.min.js"></script> -->
+    </head>
+
+    <body>
+        <h1> <b>Histogram</b> </h1>
+        <p> GDP Per Capita Data Vis</p>
+        <div id="vis"></div>
+
+        <div class="slide-container">
+            <input type="range" min="1960" max="2019" value="1960" class="slider" id="myRange">
+            <p id="s-Value"></p>
+        </div>
+
+        <script>
+
+            //Histogram Data
+            var dataset = d3.csv('http://127.0.0.1:5500/gdppercapita_us_inflation_adjusted.csv', d3.autoType).then(function(d){
+                dataset = d;
+                dataset.forEach( function(d, i){
+                    d.order = i;
+                });
+                main_main();    
+            });
+
+            const margin = 80;
+            const width = 4000 - margin;
+            const height = 720 - margin;
+
+            const svg = d3.select("#vis")
+                    .append("svg")
+                    .attr('width', width)
+                    .attr('height', height)
+
+                //add margins to chart    , then later draw on chart
+                const chart = svg.append("g")
+                                .attr('transform', `translate(${margin}, ${margin})`);
+
+
+            function changingYears(){
+                //slider changing
+                var slider = document.getElementById("myRange");
+                var current_year = slider.value;
+                var v_output = document.getElementById("s-Value")
+
+                slider.oninput = function(){
+                    current_year = this.value;
+                    v_output.innerHTML = "Year: " + this.value;
+                    drawHistogram(current_year)
+                }
+            }
+
+            function drawHistogram(current_year){
+
+                d3.selectAll("chart > *").exit().remove()
+
+                //finding the max and mean pop
+                var arrx = dataset.map(function(d){
+                    return d[current_year];
+                })
+                max_s = d3.max(arrx)
+                //console.log(max_s)
+
+                //drawing the axis
+                //y axis
+                const yScale = d3.scaleLinear()
+                                .domain([0, 80000])
+                                .range([height - 2 * margin, 0]);
+                
+                chart.append('g')
+                    .call(d3.axisLeft(yScale))
+
+                //x axis
+                var countries_x = dataset.map(function(d){
+                    return d['country']
+                })
+                //console.log(countries_x)
+
+                const xScale = d3.scaleBand()
+                                .domain(countries_x)
+                                .range([0, width])
+                                .padding(0.1);
+
+                chart.append('g')
+                    .call(d3.axisBottom(xScale).tickSizeOuter(0))
+                    .attr('transform', `translate(0, ${height - 2 * margin})`)
+                    .selectAll("text")
+                    .style('text-anchor', 'end')
+                    .attr('transform', 'rotate(-80)');
+                
+                //drawing the bars
+                chart.selectAll()
+                    .data(dataset)
+                    .enter()
+                    .append('rect')
+                    .attr('x', function(d){
+                        return xScale(d['country']);
+                    })
+                    .attr('y', function(d){
+                        return yScale(d[current_year]);
+                    })
+                    .attr('width', xScale.bandwidth())
+                    .attr('height', function(d){
+                        if (typeof d[current_year] === 'number'){
+                            return height - yScale(d[current_year]) - 2 * margin;
+                        }
+                        else{
+                            return 0;
+                        }
+                    })
+                    .attr('fill', function(d){
+                        // return '#' + Math.random().toString(16).substr(-6);
+                        return '#' + 787878;
+                    })
+                    .append('title')    //append a title tag to show the country on mouse click
+                    .text(function(d){
+                        return d['country'];
+                    });
+
+                   chart.append('g')
+                    .selectAll('dot')
+                    .data(dataset)
+                    .enter()
+                    .append('circle')
+                        .attr('cx', function(d){
+                            return xScale(d['country']) + xScale.bandwidth() / 2 ;
+                        })
+                        .attr('cy', function(d){
+                            return yScale(d[current_year])
+                        })
+                        .attr('r', function(d){
+                            return (d[current_year]/1000)
+                        })
+                        .style('fill', function(d){
+                            // return 'blue';
+                            return '#' + Math.random().toString(16).substr(-6);
+                        })
+                        .attr('stroke', 'black');
+
+
+                    //activity
+                    // chart.append('line')
+                    //     .attr('x1', 0)
+                    //     .attr('y1', 15000)
+                    //     .attr('x2', width)
+                    //     .attr('y2', 15000)
+                    //     .attr('stroke', 'red');
+
+
+
+            }
+
+            function main_main(){
+                changingYears()
+            };
+        </script>
+    </body>
+</html>

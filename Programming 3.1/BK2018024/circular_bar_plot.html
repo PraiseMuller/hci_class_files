@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+        <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src = "https://d3js.org/d3-axis.v1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- Function for radial charts -->
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3-scale-radial.js"></script>
+</head>
+
+
+<body>
+
+    <h1> <b> Circular Bar Plot </b> </h1>
+    <p>Total population Visual data for the year 2000</p>
+    <div id="this_div"></div>
+
+    <script>
+
+        var margin = {top: 10, right: 10, bottom: 10, left: 10},
+            width = 460 - margin.left - margin.right,
+            height = 460 - margin.top - margin.bottom,
+            innerRadius = 50,
+            outerRadius = Math.min(width, height) ;   // the outerRadius goes from the middle of the SVG area to the border
+        
+        // append the svg object to the body of the page
+        var svg = d3.select("#this_div")
+          .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + ( height/2 )+ ")"); 
+        
+        Promise.all([
+            d3.csv("http://127.0.0.1:5500/population_total.csv", d3.autoType)
+        ]).then(function(dataset){
+        
+            var data = dataset[0].map(function(d){
+                return d['2000'];
+            });
+            //console.log(data)
+
+            //max
+            max_s = d3.max(data)
+            console.log(max_s)
+    
+          // X scale
+          var x = d3.scaleBand()
+              .range([0, 2 * Math.PI])    // X axis goes from 0 to 2pi = all around the circle. If I stop at 1Pi, it will be around a half circle
+              .align(0)                  // This does nothing ?
+              .domain( data.map(function(d){ return d; }) ); // The domain of the X axis is the list of states.
+        
+          // Y scale
+          var y = d3.scaleRadial()
+              .range([innerRadius, outerRadius])   // Domain will be define later.
+              .domain([0, max_s]); // Domain of Y is from 0 to the max seen in the data
+        
+          // Add bars
+          svg.append("g")
+            .selectAll("path")
+            .data(data)
+            .enter()
+            .append("path")
+              .attr("fill", function(d){
+                  return '#' + Math.random().toString(16).substr(-6);
+              })
+              .attr("d", d3.arc()     // imagine your doing a part of a donut plot
+                  .innerRadius(innerRadius)
+                  .outerRadius(function(d) {
+                        //console.log(d)
+                        return y(d); 
+                    })
+                  .startAngle(function(d) { return x(d); })
+                  .endAngle(function(d) { return x(d) + x.bandwidth(); })
+                  .padAngle(0.01)
+                  .padRadius(innerRadius))
+        
+        });
+        
+    </script>
+</body>
+
+

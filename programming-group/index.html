@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.min.js"></script>
+    <!-- <link rel="stylesheet" href="css/methembecss.css"> -->
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/circular.css">
+    <link rel="stylesheet" href="css/radial.css">
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3-scale-radial.js"></script>
+
+    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+    <style>
+        /* .methembe{
+            width: 50%;
+        } */
+        .body{
+            background-color: rgb(255, 204, 0) !important;
+        }
+        .radial-bar{
+            width: 40%;
+        }
+        .tyrone{
+            width:50%;
+            align-items: center;
+        }
+        .container-1{
+            display: flex;
+            flex-direction: column ;
+        }
+        .container-2{
+            display: flex;
+            flex-direction: row;
+            width: 100vw;
+            height: 900px;
+        }
+        select{
+            border: 1px rgb(68, 85, 255) solid;
+            border-radius: 5px;
+        }
+    </style>
+
+</head>
+<body onLoad="ScrollDiv_init()">
+
+    <div class="container-1">
+
+        <div class="container-2">
+
+            <div class="tyrone">
+    
+                <div class="tyrone-text">
+                    <h1>Covid-19 world map (cases)</h1>
+                </div>
+        
+                <p>Click and drag on a country to navigate , or select a country on the button</p>
+        
+            </div>
+
+            <div class="radial-bar" id='radial'>
+                <div class="main-text">
+                    <h1>This the radial bar plot</h1>
+        
+                    <b><h2 id="country-text"></h2></b>
+
+                    <!-- <svg></svg> -->
+                </div>
+            </div>
+    
+        </div>
+    
+        <div class="muller" >
+    
+            <h1> View Cummulative Deaths</h1>
+    
+            <div class="cool-container-1">
+
+                <div class="first-div-2">
+
+                    <div class="first-div-title">
+                        Date------------||Country||------Cumulative Deaths
+                    </div>
+
+                    <div class="first-div" id="first-div-id" onmouseover="pauseDiv()" onmouseout="resumeDiv()">
+                        
+                        <ul id="cool-list-id"></ul>
+                    </div>
+                </div>
+
+                
+                <div class="second-div">
+                    <div class="slider-container">
+                        <div class="fancyplothere" id="fancyplot-id"></div>
+                        <p id="first-cool-paragraph-id" class="first-cool-paragraph"> Circular Bar Plot </p>
+                    </div>
+                </div>
+            </div>
+    
+    
+        </div>
+
+
+    </div>
+
+    <script src="js/map.js"></script>
+    <script src="js/circular.js"></script>
+    <script src="js/radial.js"></script>
+</body>
+</html>

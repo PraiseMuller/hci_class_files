@@ -1,0 +1,75 @@
+/* * {
+  margin: 0;
+} */
+
+.muller {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  background-color: rgb(255, 255, 255);
+  /* height: 100vh; */
+  text-align: center;
+}
+
+.cool-container-1 {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+  width: fit-content;
+  height: 100%;
+}
+
+.first-div {
+  text-align: left;
+  font-size: 13px;
+  width: 491px;
+  height: 625px;
+  border: 1px rgb(255, 211, 255) solid;
+  overflow: hidden;
+}
+
+.first-div-title {
+  top: 410px;
+  position: inherit;
+  height: 4%;
+  padding: 10px;
+  background-color: rgb(255, 211, 255);
+}
+
+.second-div {
+  height: fit-content;
+  width: fit-content + 100px;
+  /* padding: 20px; */
+  /* border: 1px rgb(214, 146, 146) solid; */
+}
+
+.first-cool-slider {
+  /* margin-top: 20px; */
+  width: 60%;
+}
+
+.fancyplothere {
+  background-color: rgb(255, 211, 255);
+}
+
+.slider-container .first-cool-paragraph {
+  font-size: 25px;
+}
+
+.countryTooltip {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  background: #fff;
+  padding: 5px;
+  text-align: left;
+  border: solid #ccc 1px;
+  color: #666;
+  font-size: 14px;
+  font-family: sans-serif;
+}

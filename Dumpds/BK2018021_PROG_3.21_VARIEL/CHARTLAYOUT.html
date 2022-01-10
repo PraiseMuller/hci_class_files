@@ -1,0 +1,62 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3 Charts</title>
+    <link rel="stylesheet" href="./core/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container-fluid h-85">
+
+        <div class="row mt-3 h-100">
+            <div class="col-10 ml-5">
+                <div class="row ml-0"><div class="col-3">
+                        <div class="form-group">
+                            <select class="form-control" id="chart_type">
+                                <option value="grouped">Grouped Bar Chart</option>
+                                <option value="stacked" selected>Stacked Bar Chart</option>
+                                <option value="pyramid">Pyramid Chart</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <select class="form-control" id="year">
+                                <option value="1950">1950</option>
+                                <option value="1955">1955</option>
+                                <option value="1960">1960</option>
+                                <option value="1965">1965</option>
+                                <option value="1970">1970</option>
+                                <option value="1975">1975</option>
+                                <option value="1980">1980</option>
+                                <option value="1985" selected>1985</option>
+                                <option value="1990">1990</option>
+                                <option value="1995">1995</option>
+                                <option value="2000">2000</option>
+                                <option value="2005">2005</option>
+                                <option value="2010">2010</option>
+                                <option value="2015">2015</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="w-100 h-90 d3-charts">
+                    <svg width="100%" height="100%" class='allChart'></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="core/js/CHARTLAYOUT.js"></script>
+
+</body>
+
+</html>

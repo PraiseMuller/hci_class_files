@@ -1,0 +1,144 @@
+
+body {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  div#layout {
+    text-align: center;
+  }
+.sd{
+    margin-top: 30vh;
+}
+
+  div#container {
+    width: 1000px;
+    height: 600px;
+    margin: auto;
+    background-color: #2F4A6D;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .bar {
+    fill: #b35227;
+  }
+
+.h-85{
+  height: 86%;
+}
+
+  div.tooltip {
+    position: absolute;
+    font: 14px sans-serif;
+      font-weight: 700;
+    pointer-events: none;
+}
+
+  text {
+    font-size: 12px;
+    fill: #000000;
+  }
+
+  path {
+    stroke: gray;
+  }
+
+  line {
+    stroke: gray;
+  }
+
+  line#limit {
+    stroke: #FED966;
+    stroke-width: 3;
+    stroke-dasharray: 3 6;
+  }
+
+  .grid path {
+    stroke-width: 0;
+  }
+
+  .grid .tick line {
+    stroke: #9FAAAE;
+    stroke-opacity: 0.3;
+  }
+
+  text.divergence {
+    font-size: 14px;
+    fill: #2F4A6D;
+  }
+
+  text.value {
+    font-size: 14px;
+  }
+
+  text.title {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  text.label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  text.source {
+    font-size: 10px;
+  }
+
+
+  .slidecontainer {
+    width: 100%;
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .slider:hover {
+    opacity: 1;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #b35227;
+    cursor: pointer;
+  }
+
+  .chart-headding{
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #b35227;
+    cursor: pointer;
+  }
+
+  .h-90{
+    height: 91%;
+  }
+
+  .scatter_active{
+    fill:'#71361c' !important;
+  }
+
+  .Scatter_inActive{
+    fill:'#b35227';
+  }

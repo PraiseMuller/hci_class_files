@@ -1,0 +1,48 @@
+body{
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.water {
+  fill: #50c3cf;
+}
+
+.land {
+  fill: #005e10;
+  stroke: rgb(255, 255, 255);
+  stroke-width: 0.7px;
+}
+
+.land:hover {
+  fill:#FF0000;
+  stroke-width: 1px;
+  opacity: 0.5;
+}
+
+.focused {
+  fill: #FF0000;
+  opacity: 0.5;
+}
+
+.tyrone select {
+  position: absolute;
+  top: 150px;
+  left: 20px;
+  border: solid #ccc 1px;
+  padding: 3px;
+  box-shadow: inset 1px 1px 2px #ddd8dc;
+}
+
+.countryTooltip {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  background: #fff;
+  padding: 5px;
+  text-align: left;
+  border: solid #ccc 1px;
+  color: #666;
+  font-size: 14px;
+  font-family: sans-serif;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Pie Chart</title>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src = "https://d3js.org/d3-axis.v1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    
+    </head>
+
+    <body>
+        <h1>Pie Chart</h1>
+        <div id="div-1"></div>
+
+        <script>
+
+            var margin = 80;
+            var width = 600 - margin;
+            var height = 600 -margin;
+
+            //append svg
+            var svg = d3.select("#div-1")
+                        .append("svg")
+                        .attr("width", width + margin)
+                        .attr("height", height + margin)
+                        .append("g")
+                        .attr("transform", "translate(" + margin + "," + margin + ")");
+
+            //add a white background to the svg
+            svg.append('rect')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', width)
+            .attr('height', height)
+            .style('fill', '#ffd4f8')
+
+
+            Promise.all([d3.csv("http://127.0.0.1:5500/gdppercapita_us_inflation_adjusted.csv", d3.autoType),
+            ]).then(function(data){
+                //year 2000
+                var data_gdppercapita = data[0].map(function(d){
+                    return  d['2000'];
+                });
+
+                //radius of the pie chart
+                var radius = height/2 - margin;
+
+                var color = d3.scaleOrdinal()
+                            .domain(data_gdppercapita)
+                            .range(["#f1f4f0", "#ffbbbb", "#fff6c8", "#ffd4f8", "#b89ed1"])
+
+                var pie = d3.pie()
+                    .value(function(d){
+                        return d;
+                    })(data_gdppercapita)
+
+                var path = d3.arc()
+                            .outerRadius(radius)
+                            .innerRadius(0);
+
+                var pies= svg.selectAll(".arc")
+                            .data(pie)
+                            .enter()
+                            .append("g")
+                            .attr("class", "arc")
+
+                pies.append("path")
+                    .attr("d", path)
+                    .attr("fill", function(d){
+                        return '#' + Math.random().toString(16).substr(-6);
+                    })
+                    .attr("stroke", "black")
+
+                pies.attr("transform", "translate(" + width/2 + "," + height/2 + ")");       
+            });
+
+        </script>
+    </body>
+</html>

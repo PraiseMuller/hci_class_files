@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Scatter Plot 1</title>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src = "https://d3js.org/d3-axis.v1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    
+    </head>
+
+    <body>
+        <h1>Scatter Plot</h1>
+        <div id="div-1"></div>
+
+        <script>
+
+            var margin = { top: 50, right: 20, bottom:40, left:50};
+            var width = 1000 - margin.left - margin.right;
+            var height = 500 -margin.top - margin.right;
+
+            //append svg
+            var svg = d3.select("#div-1")
+                        .append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.left + margin.right)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+            Promise.all([
+                d3.csv("http://127.0.0.1:5500/life_expectancy_years.csv", d3.autoType),
+                d3.csv("http://127.0.0.1:5500/population_total.csv", d3.autoType),
+                d3.csv("http://127.0.0.1:5500/gdppercapita_us_inflation_adjusted.csv", d3.autoType),
+            ]).then(function(data){
+                //year 2000
+                var data_life_expectancy = data[0].map(function(d){
+                    return {country: d['country'], value: d['2000']};
+                });
+
+                var data_population_total = data[1].map(function(d){
+                    return {country: d['country'], value: d['2000']};
+                });
+
+                var data_gdppercapita = data[2].map(function(d){
+                    return {country: d['country'], value: d['2000']};
+                });
+               
+                //linking the three
+                var dataset = [];
+
+                // for (let i = 0; i < 187; i++){
+                //     dataset.push({
+                //         life : data_life_expectancy[i],
+                //         population : data_population_total[i],
+                //         gdp : data_gdppercapita[i]
+                //     })
+                // }
+
+                for (let i = 0; i < data_life_expectancy.length; i++){
+                    //console.log( 1 === 1 === 1  )
+                    if(data_life_expectancy[i].country === data_population_total[i].country && data_gdppercapita[i].country == data_population_total[i].country 
+                    && data_gdppercapita[i].country == data_life_expectancy[i].country){
+                        dataset.push({
+                            life : data_life_expectancy[i].value,
+                            population : data_population_total[i].value,
+                            gdp : data_gdppercapita[i].value
+                        })
+                    }
+                    else{
+                        continue;
+                    }
+                }
+                console.log(dataset)
+
+                //add a white background to the svg
+                svg.append('rect')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', width)
+                .attr('height', height)
+                .style('fill', '#ffd4f8')
+
+                //adding the x axis ( X = gdp)            
+                var calc_x = dataset.map(function(d){
+                    return d.gdp
+                });
+                
+                //find max
+                const max_x = d3.max(calc_x);
+
+                var x = d3.scaleLinear()
+                                .domain([0, max_x])
+                                .range([0, width])
+                                .nice();
+                
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x)
+                    .tickSize(-height))
+                    .select(".domain").remove();    //removes some lines on the edges
+
+                //adding the y axis (Y = life expectancy)
+                var calc_y = dataset.map(function(d){
+                    return d.life;
+                })
+                
+                //find max
+                const max_y = d3.max(calc_y)
+
+                var y = d3.scaleLinear()
+                        .domain([0, max_y])
+                        .range([height, 0])
+                        .nice();
+
+                svg.append("g")
+                    .call(d3.axisLeft(y)
+                    .tickSize(-width))
+                    .select(".domain").remove();    //removes some lines on the edges
+
+                //tick customization
+                svg.selectAll(".tick line")
+                .attr("stroke", "grey")
+                
+                    
+                //scale for bubble size ( R = population)
+                var pop = dataset.map(function(d){
+                    return d.population;
+                })
+                
+                //min and max of the population
+                const min_pop = d3.min(pop);
+                const max_pop = d3.max(pop);
+
+                var z = d3.scaleLinear()
+                        .domain([min_pop, max_pop])
+                        .range([3, 30]);
+
+                //x-axis label
+                svg.append('text')
+                    .attr("text-anchor", "end")
+                    .attr('x', width/2 )
+                    .attr('y', height/2 + margin.top + 186)
+                    .text('GDP')
+
+                //Y-axis label
+                svg.append('text')
+                    .attr("transform", "rotate(-90)")
+                    .attr('y', -margin.left + 30)
+                    .attr('x', -height/2 - margin.top)
+                    .text('Life Expactancy')
+                
+                //add dots
+                svg.append("g")
+                    .selectAll("dot")
+                    .data(dataset)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d){
+                        console.log(d.gdp)
+                        return x(d.gdp);
+                    })
+                    .attr("cy", function(d){
+                        return y(d.life);
+                    })
+                    .attr("r", function(d){
+                        return z(d.population);
+                    })
+                    .style("fill", "purple")
+                    .style("stroke", "blue")
+            });
+
+        </script>
+    </body>
+</html>
